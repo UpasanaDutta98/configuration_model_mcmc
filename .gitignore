@@ -1,0 +1,6 @@
+.eggs
+build
+configuration_model_mcmc.egg-info
+dist
+.ipynb_checkpoints
+.DS_Store

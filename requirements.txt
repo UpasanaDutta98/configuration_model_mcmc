@@ -1,0 +1,7 @@
+# Library dependencies for the python code.  
+#### ESSENTIAL LIBRARIES FOR MAIN FUNCTIONALITY ####
+
+numpy>=1.17.1
+networkx>=2.4
+scipy>=1.4.1
+numba>=0.49.1
