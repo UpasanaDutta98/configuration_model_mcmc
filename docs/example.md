@@ -85,7 +85,7 @@ list_of_graphs = mcmc_object.get_graphs(count=5)
 ```
 
 Output:
-```
+```python
 The network does not satisfy the density criterion for automatic selection of sampling gap.
 Running the Sampling Gap Algorithm. This will take a while.....
 ----- Running initial burn-in -----
@@ -138,7 +138,7 @@ print("Sampling gap obtained = ", sampling_gap)
 ```
 
 Output:
-```
+```python
 Sampling gap obtained = 31
 ```
 
