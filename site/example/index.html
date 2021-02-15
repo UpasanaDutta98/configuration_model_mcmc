@@ -168,10 +168,9 @@ mcmc_object = CM.MCMC(G, allow_loops, allow_multi, is_vertex_labeled)
 list_of_graphs = mcmc_object.get_graphs(count=5)
 </code></pre>
 <p>Output:</p>
-<pre><code class="language-python">The network does not satisfy the density criterion for automatic selection of sampling gap.
+<pre><code>The network does not satisfy the density criterion for automatic selection of sampling gap.
 Running the Sampling Gap Algorithm. This will take a while.....
 ----- Running initial burn-in -----
-76%|████████████████████████████         | 7568/10000 [00:33&lt;00:10, 229.00it/s]
 ----- Initial burn-in complete -----
 fs = 0.601, α = 0.05, time = 0.01 mins.
 fs = 0.44, α = 0.05, time = 0.51 mins.
@@ -180,6 +179,10 @@ fs = 0.44, α = 0.05, time = 0.51 mins.
 ....
 fs = 0.052, α = 0.05, time = 11.23 mins
 </code></pre>
+<blockquote>
+<p>76%|████████████████████████████         | 7568/10000 [00:33&lt;00:10, 229.00it/s]
+Let's check this</p>
+</blockquote>
 <p>The above code reads the edgelist of a network of Jazz musicians and samples 5 graphs from the vertex-labeled simple graph space. The network does not satisfy the contraints necessary for the automatic selection of the sampling gap, so the Sampling Gap Algorithm is run. A progress bar is displayed during the burn-in period of the MCMC walk. The printed lines thereafter show the values of the variables fs and α as the run proceeds. When fs becomes less than α, the run is completed. The variable <code>list_of_graphs</code> contains the 5 graphs sampled from the Configuration model.</p>
 <p>The warning messages and the print statements in the output can be muted by specifying <code>warnings = False</code> while creating the MCMC object. The deafult value is <code>warnings = True</code>.</p>
 <pre><code class="language-python"># read the network
@@ -211,7 +214,7 @@ sampling_gap = mcmc_object.run_sampling_gap_algorithm()
 print(&quot;Sampling gap obtained = &quot;, sampling_gap)
 </code></pre>
 <p>Output:</p>
-<pre><code class="language-python">Sampling gap obtained = 31
+<pre><code>Sampling gap obtained = 31
 </code></pre>
 <p>Again, warning messages will be muted if specified so while creating the MCMC object. The warning messages of the sampling gap algorithm in particular can be muted using the following code, even when it was not muted while creating the MCMC object.</p>
 <pre><code class="language-python">sampling_gap = mcmc_object.run_sampling_gap_algorithm(warnings = False)
