@@ -149,7 +149,7 @@ for i in range(2):
     print()
 </code></pre>
 <p>Output:</p>
-<pre><code class="language-python">-0.2735 -0.2984 -0.2735 -0.3496 -0.3126
+<pre><code>-0.2735 -0.2984 -0.2735 -0.3496 -0.3126
 -0.2646 -0.3723 -0.2864 -0.3131 -0.2646
 </code></pre>
 <p>In the above code, by specifying <code>count=5</code> in the function parameter, we sample 10 networks by running the loop twice. The default value of <code>count</code> is 1. The degree assortativity values of the samples networks are printed as output.</p>
@@ -210,12 +210,11 @@ mcmc_object = CM.MCMC(G, allow_loops, allow_multi, is_vertex_labeled)
 sampling_gap = mcmc_object.run_sampling_gap_algorithm()
 print(&quot;Sampling gap obtained = &quot;, sampling_gap)
 </code></pre>
-<p>Output:
-```Sampling gap obtained = 31</p>
-<pre><code>
-Again, warning messages will be muted if specified so while creating the MCMC object. The warning messages of the sampling gap algorithm in particular can be muted using the following code, even when it was not muted while creating the MCMC object.
-```python
-sampling_gap = mcmc_object.run_sampling_gap_algorithm(warnings = False)
+<p>Output:</p>
+<pre><code>Sampling gap obtained = 31
+</code></pre>
+<p>Again, warning messages will be muted if specified so while creating the MCMC object. The warning messages of the sampling gap algorithm in particular can be muted using the following code, even when it was not muted while creating the MCMC object.</p>
+<pre><code class="language-python">sampling_gap = mcmc_object.run_sampling_gap_algorithm(warnings = False)
 </code></pre>
 <p>The default significance level of the the autocorrelation hypothesis tests = 5% and the default number of parallel MCMC chains run for the Sampling Gap Algorithm = 100. However, you can change them by specifying in the function parameter. For example, we can set the significance level as 10% and run 50 parallel MCMC chains as follows:</p>
 <pre><code class="language-python">sampling_gap = mcmc_object.run_sampling_gap_algorithm(alpha_c = 0.1, numchains = 50)
