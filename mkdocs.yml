@@ -4,7 +4,7 @@ nav:
     - Examples: example.md
 theme:
     name: readthedocs
-    highlightjs: true
+    highlightjs: false
     hljs_languages:
         - yaml
         - rust
