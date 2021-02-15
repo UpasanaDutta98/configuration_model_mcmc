@@ -89,7 +89,7 @@ Output:
 The network does not satisfy the density criterion for automatic selection of sampling gap.
 Running the Sampling Gap Algorithm. This will take a while.....
 ----- Running initial burn-in -----
-76%|████████████████████████████         | 7568/10000 [00:33<00:10, 229.00it/s]
+76%|████████████████████████████         | 7568/10000 [00:32<00:20, 229.00it/s]
 ----- Initial burn-in complete -----
 fs = 0.601, α = 0.05, time = 0.01 mins.
 fs = 0.44, α = 0.05, time = 0.51 mins.
