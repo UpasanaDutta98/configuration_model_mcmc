@@ -1,6 +1,6 @@
 # Examples
 
-## A simple example.
+## A test simple example.
 
 Here's the most basic example.
 ```python

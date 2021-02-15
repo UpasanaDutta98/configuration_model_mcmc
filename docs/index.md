@@ -20,7 +20,7 @@ s
 
 ## Notes
 
-The package will not work for weighted networks, directed networks, hypergraphs, or simplical complexes.
+The package will not work for weighted networks, directed networks, hypergraphs, or simplical complexes. Please refer to the [website](https://UpasanaDutta98.github.io/configuration_model_mcmc/) for complete documentation.
 
 ## Feedback and bugs
 
