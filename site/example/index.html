@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Examples - configuration_model_mcmc</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Examples";
+    var mkdocs_page_input_path = "example.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/rust.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> configuration_model_mcmc</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Examples</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#a-simple-example">A simple example.</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#sample-multiple-graphs">Sample multiple graphs</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#sampling-gap-heuristic-conditions">Sampling Gap heuristic conditions</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#calling-the-sampling-gap-algorithm">Calling the Sampling Gap Algorithm</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#customise-sampling-gap">Customise sampling gap</a>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">configuration_model_mcmc</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Examples</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="examples">Examples</h1>
+<h2 id="a-simple-example">A simple example.</h2>
+<p>Here's the most basic example.</p>
+<pre><code class="language-python">import configuration_model_mcmc as CM
+import networkx as nx
+
+# read the Karate Club network
+G = nx.karate_club_graph()
+
+# initialise the MCMC
+allow_loops = False
+allow_multi = False
+is_vertex_labeled = False
+mcmc_object = CM.MCMC(G, allow_loops, allow_multi, is_vertex_labeled)
+
+# obtain a new graph (G_2) from the Configuration model
+G2 = mcmc_object.get_graphs()
+</code></pre>
+<p>In the above example, <code>G_2</code> is sampled from the stub-labeled simple graph space. <code>G_2</code> has the same degree sequence as the Karate Club network. Details on how to choose the graph space can be found in [1].</p>
+<h2 id="sample-multiple-graphs">Sample multiple graphs</h2>
+<p>Multiple graphs can also be sampled from the Configuration model with/without a loop</p>
+<pre><code class="language-python"># read the Karate Club network
+G = nx.karate_club_graph()
+
+# initialise the MCMC
+allow_loops = False
+allow_multi = False
+is_vertex_labeled = False
+mcmc_object = CM.MCMC(G, allow_loops, allow_multi, is_vertex_labeled)
+
+# Obtain 10 graphs from the Configuration model over 2 iterations.
+for i in range(2):
+    list_of_graphs = mcmc_object.get_graphs(count=5)
+    for each_graph in list_of_graphs:
+        print(round(nx.degree_pearson_correlation_coefficient(each_graph),4), end = &quot; &quot;)
+    print()
+
+# Output:
+# -0.2735 -0.2984 -0.2735 -0.3496 -0.3126
+# -0.2646 -0.3723 -0.2864 -0.3131 -0.2646
+</code></pre>
+<p>In the above code, by specifying <code>count=5</code> in the function parameter, we sample 10 networks by running the loop twice. The default value of <code>count</code> is 1. The degree assortativity values of the samples networks are printed as output.</p>
+<h2 id="sampling-gap-heuristic-conditions">Sampling Gap heuristic conditions</h2>
+<p>If the network does not satisfy the conditions under which our Sampling Gap heuristic can be applied, the Sampling Gap algorithm is run.</p>
+<pre><code class="language-python"># read the network
+G = nx.read_edgelist(&quot;JazzMusicians.txt&quot;)
+
+# initialise the MCMC
+allow_loops = False
+allow_multi = False
+is_vertex_labeled = True
+mcmc_object = CM.MCMC(G, allow_loops, allow_multi, is_vertex_labeled)
+
+# Obtain 5 graphs from the Configuration model
+list_of_graphs = mcmc_object.get_graphs(count=5)
+
+# Output:
+# The network does not satisfy the density criterion for automatic selection of sampling gap.
+# Running the Sampling Gap Algorithm. This will take a while.....
+</code></pre>
+<p>The above code reads the edgelist of a network of Jazz musicians and samples 5 graphs from the vertex-labeled simple graph space. The network does not satisfy the contraints for the use of an automated sampling gap, so the Sampling Gap Algorithm is run. Once the run is over, the variable <code>list_of_graphs</code> contains the 5 graphs sampled from the Configuration model.</p>
+<p>The warning messages in the output can be muted by specifying <code>warning_outputs = False</code> in the function parameter.</p>
+<pre><code class="language-python"># read the network
+G = nx.read_edgelist(&quot;JazzMusicians.txt&quot;)
+
+# initialise the MCMC
+allow_loops = False
+allow_multi = False
+is_vertex_labeled = True
+mcmc_object = CM.MCMC(G, allow_loops, allow_multi, is_vertex_labeled)
+
+# Obtain 5 graphs from the Configuration model
+list_of_graphs = mcmc_object.get_graphs(count=5, warning_outputs = False)
+</code></pre>
+<h2 id="calling-the-sampling-gap-algorithm">Calling the Sampling Gap Algorithm</h2>
+<p>One can run the Sampling Gap Algorithm as follows:</p>
+<pre><code class="language-python"># read the network
+G = nx.karate_club_graph()
+
+# initialise the MCMC
+allow_loops = False
+allow_multi = False
+is_vertex_labeled = True
+mcmc_object = CM.MCMC(G, allow_loops=False, allow_multi=False, is_vertex_labeled=False)
+
+# run the Sampling Gap Algorithm
+sampling_gap = mcmc_object.run_sampling_gap_algorithm()
+print(&quot;Sampling gap obtained = &quot;, sampling_gap)
+
+# Output:
+# Sampling gap obtained = 31
+</code></pre>
+<p>Again, the warning messages may be muted using </p>
+<pre><code class="language-python">sampling_gap = mcmc_object.run_sampling_gap_algorithm(warning_outputs = False)
+</code></pre>
+<h2 id="customise-sampling-gap">Customise sampling gap</h2>
+<p>One can also specify a bespoke sampling gap one wants to run the convergence detection test with, using the <code>sampling_gap</code> function parameter.</p>
+<pre><code class="language-python"># read the network
+G = nx.karate_club_graph()
+
+# initialise the MCMC
+allow_loops = False
+allow_multi = False
+is_vertex_labeled = True
+mcmc_object = CM.MCMC(G, allow_loops=False, allow_multi=False, is_vertex_labeled=False)
+
+# Specify the sampling gap 
+gap = 100 # any user-defined value
+list_of_graphs = mcmc_object.get_graphs(count=5, sampling_gap = gap)
+for each_graph in list_of_graphs:
+    print(round(nx.degree_pearson_correlation_coefficient(each_graph),4), end = &quot; &quot;)
+
+# Output:
+# -0.2614 -0.4342 -0.3118 -0.2864 -0.2939
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href=".." class="btn btn-neutral" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href=".." style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

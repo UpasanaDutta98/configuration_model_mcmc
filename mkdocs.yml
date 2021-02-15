@@ -1,0 +1,10 @@
+site_name: configuration_model_mcmc
+nav:
+    - Home: index.md
+    - Examples: example.md
+theme:
+    name: readthedocs
+    highlightjs: true
+    hljs_languages:
+        - yaml
+        - rust

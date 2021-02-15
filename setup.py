@@ -23,7 +23,7 @@ def read_requirements(filename):
 setup(
     name="configuration_model_mcmc",
     packages=list(find_packages('.')),
-    version="0.0.4",
+    version="0.0.5",
     author="Upasana Dutta; Aaron Clauset",
     author_email="upasana.dutta@colorado.edu",
     description="description",
