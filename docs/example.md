@@ -85,7 +85,7 @@ list_of_graphs = mcmc_object.get_graphs(count=5)
 ```
 
 Output:
-~~~
+```
 The network does not satisfy the density criterion for automatic selection of sampling gap.
 Running the Sampling Gap Algorithm. This will take a while.....
 ----- Running initial burn-in -----
@@ -96,8 +96,8 @@ fs = 0.44, α = 0.05, time = 0.51 mins.
 ....
 ....
 ....
-fs = 0.052, α = 0.05, time = 11.23 mins
-~~~
+fs = 0.052, α = 0.05, time = 11.23 mins.
+```
 
 The above code reads the edgelist of a network of Jazz musicians and samples 5 graphs from the vertex-labeled simple graph space. The network does not satisfy the contraints necessary for the automatic selection of the sampling gap, so the Sampling Gap Algorithm is run. A progress bar is displayed during the burn-in period of the MCMC walk. The printed lines thereafter show the values of the variables fs and α as the run proceeds. When fs becomes less than α, the run is completed. The variable `list_of_graphs` contains the 5 graphs sampled from the Configuration model.
 
