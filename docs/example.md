@@ -59,7 +59,7 @@ for i in range(2):
     print()
 ```
 Output:
-```python
+```
 -0.2735 -0.2984 -0.2735 -0.3496 -0.3126
 -0.2646 -0.3723 -0.2864 -0.3131 -0.2646
 ```
@@ -138,7 +138,8 @@ print("Sampling gap obtained = ", sampling_gap)
 ```
 
 Output:
-```Sampling gap obtained = 31
+```
+Sampling gap obtained = 31
 ```
 
 Again, warning messages will be muted if specified so while creating the MCMC object. The warning messages of the sampling gap algorithm in particular can be muted using the following code, even when it was not muted while creating the MCMC object.

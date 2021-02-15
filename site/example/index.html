@@ -56,13 +56,13 @@
                 <ul class="current">
                     <li class="toctree-l1 current"><a class="reference internal current" href="./">Examples</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#a-test-simple-example">A test simple example.</a>
+    <li class="toctree-l2"><a class="reference internal" href="#a-simple-example">A simple example.</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#sample-multiple-graphs">Sample multiple graphs</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#sampling-gap-heuristic-conditions">Sampling Gap heuristic conditions</a>
+    <li class="toctree-l2"><a class="reference internal" href="#sampling-gap-heuristics">Sampling Gap heuristics</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#calling-the-sampling-gap-algorithm">Calling the Sampling Gap Algorithm</a>
+    <li class="toctree-l2"><a class="reference internal" href="#running-the-sampling-gap-algorithm">Running the Sampling Gap Algorithm</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#customise-sampling-gap">Customise sampling gap</a>
     </li>
@@ -102,8 +102,8 @@
             <div class="section">
               
                 <h1 id="examples">Examples</h1>
-<h2 id="a-test-simple-example">A test simple example.</h2>
-<p>Here's the most basic example.</p>
+<h2 id="a-simple-example">A simple example.</h2>
+<p>Here is the most basic example.</p>
 <pre><code class="language-python">import configuration_model_mcmc as CM
 import networkx as nx
 
@@ -117,15 +117,25 @@ is_vertex_labeled = False
 mcmc_object = CM.MCMC(G, allow_loops, allow_multi, is_vertex_labeled)
 
 # obtain a new graph (G_2) from the Configuration model
-G2 = mcmc_object.get_graphs()
+G2 = mcmc_object.get_graph()
 </code></pre>
-<p>In the above example, <code>G_2</code> is sampled from the stub-labeled simple graph space. <code>G_2</code> has the same degree sequence as the Karate Club network. Details on how to choose the graph space can be found in [1].</p>
+<p>In the above example, <code>G_2</code> is sampled from the stub-labeled simple graph space. <code>G_2</code> has the same degree sequence as the Karate Club network. Details of how to choose the graph space can be found in <a href="https://epubs.siam.org/doi/pdf/10.1137/16M1087175">[1]</a>.</p>
+<p>By default, the chosen graph space is the simple vertex-labeled graph space. In the example below, the graph <code>G_2</code> is obtained from the simple vertex-labeled graph space.</p>
+<pre><code class="language-python"># read the Karate Club network
+G = nx.karate_club_graph()
+
+# initialise the MCMC
+mcmc_object = CM.MCMC(G)
+
+# obtain a new graph (G_2) from the Configuration model
+G2 = mcmc_object.get_graph()
+</code></pre>
 <h2 id="sample-multiple-graphs">Sample multiple graphs</h2>
 <p>Multiple graphs can also be sampled from the Configuration model with/without a loop</p>
 <pre><code class="language-python"># read the Karate Club network
 G = nx.karate_club_graph()
 
-# initialise the MCMC
+# initialise the MCMC in simple stub-labeled space
 allow_loops = False
 allow_multi = False
 is_vertex_labeled = False
@@ -133,18 +143,18 @@ mcmc_object = CM.MCMC(G, allow_loops, allow_multi, is_vertex_labeled)
 
 # Obtain 10 graphs from the Configuration model over 2 iterations.
 for i in range(2):
-    list_of_graphs = mcmc_object.get_graphs(count=5)
+    list_of_graphs = mcmc_object.get_graph(count=5)
     for each_graph in list_of_graphs:
         print(round(nx.degree_pearson_correlation_coefficient(each_graph),4), end = &quot; &quot;)
     print()
-
-# Output:
-# -0.2735 -0.2984 -0.2735 -0.3496 -0.3126
-# -0.2646 -0.3723 -0.2864 -0.3131 -0.2646
+</code></pre>
+<p>Output:</p>
+<pre><code class="language-python">-0.2735 -0.2984 -0.2735 -0.3496 -0.3126
+-0.2646 -0.3723 -0.2864 -0.3131 -0.2646
 </code></pre>
 <p>In the above code, by specifying <code>count=5</code> in the function parameter, we sample 10 networks by running the loop twice. The default value of <code>count</code> is 1. The degree assortativity values of the samples networks are printed as output.</p>
-<h2 id="sampling-gap-heuristic-conditions">Sampling Gap heuristic conditions</h2>
-<p>If the network does not satisfy the conditions under which our Sampling Gap heuristic can be applied, the Sampling Gap algorithm is run.</p>
+<h2 id="sampling-gap-heuristics">Sampling Gap heuristics</h2>
+<p>If the network does not satisfy the conditions under which our Sampling Gap heuristic can automatically choose a sampling gap, the Sampling Gap algorithm is run, which might take a while.</p>
 <pre><code class="language-python"># read the network
 G = nx.read_edgelist(&quot;JazzMusicians.txt&quot;)
 
@@ -156,13 +166,22 @@ mcmc_object = CM.MCMC(G, allow_loops, allow_multi, is_vertex_labeled)
 
 # Obtain 5 graphs from the Configuration model
 list_of_graphs = mcmc_object.get_graphs(count=5)
-
-# Output:
-# The network does not satisfy the density criterion for automatic selection of sampling gap.
-# Running the Sampling Gap Algorithm. This will take a while.....
 </code></pre>
-<p>The above code reads the edgelist of a network of Jazz musicians and samples 5 graphs from the vertex-labeled simple graph space. The network does not satisfy the contraints for the use of an automated sampling gap, so the Sampling Gap Algorithm is run. Once the run is over, the variable <code>list_of_graphs</code> contains the 5 graphs sampled from the Configuration model.</p>
-<p>The warning messages in the output can be muted by specifying <code>warning_outputs = False</code> in the function parameter.</p>
+<p>Output:</p>
+<pre><code>The network does not satisfy the density criterion for automatic selection of sampling gap.
+Running the Sampling Gap Algorithm. This will take a while.....
+----- Running initial burn-in -----
+76%|████████████████████████████         | 7568/10000 [00:33&lt;00:10, 229.00it/s]
+----- Initial burn-in complete -----
+fs = 0.601, α = 0.05, time = 0.01 mins.
+fs = 0.44, α = 0.05, time = 0.51 mins.
+....
+....
+....
+fs = 0.052, α = 0.05, time = 11.23 mins
+</code></pre>
+<p>The above code reads the edgelist of a network of Jazz musicians and samples 5 graphs from the vertex-labeled simple graph space. The network does not satisfy the contraints necessary for the automatic selection of the sampling gap, so the Sampling Gap Algorithm is run. A progress bar is displayed during the burn-in period of the MCMC walk. The printed lines thereafter show the values of the variables fs and α as the run proceeds. When fs becomes less than α, the run is completed. The variable <code>list_of_graphs</code> contains the 5 graphs sampled from the Configuration model.</p>
+<p>The warning messages and the print statements in the output can be muted by specifying <code>warnings = False</code> while creating the MCMC object. The deafult value is <code>warnings = True</code>.</p>
 <pre><code class="language-python"># read the network
 G = nx.read_edgelist(&quot;JazzMusicians.txt&quot;)
 
@@ -170,13 +189,14 @@ G = nx.read_edgelist(&quot;JazzMusicians.txt&quot;)
 allow_loops = False
 allow_multi = False
 is_vertex_labeled = True
-mcmc_object = CM.MCMC(G, allow_loops, allow_multi, is_vertex_labeled)
+warnings = False
+mcmc_object = CM.MCMC(G, allow_loops, allow_multi, is_vertex_labeled, warnings)
 
 # Obtain 5 graphs from the Configuration model
-list_of_graphs = mcmc_object.get_graphs(count=5, warning_outputs = False)
+list_of_graphs = mcmc_object.get_graphs(count=5)
 </code></pre>
-<h2 id="calling-the-sampling-gap-algorithm">Calling the Sampling Gap Algorithm</h2>
-<p>One can run the Sampling Gap Algorithm as follows:</p>
+<h2 id="running-the-sampling-gap-algorithm">Running the Sampling Gap Algorithm</h2>
+<p>If you want to call the Sampling Gap Algorithm to obatin a bespoke sampling gap for your graph, you may do so as follows:</p>
 <pre><code class="language-python"># read the network
 G = nx.karate_club_graph()
 
@@ -184,20 +204,24 @@ G = nx.karate_club_graph()
 allow_loops = False
 allow_multi = False
 is_vertex_labeled = True
-mcmc_object = CM.MCMC(G, allow_loops=False, allow_multi=False, is_vertex_labeled=False)
+mcmc_object = CM.MCMC(G, allow_loops, allow_multi, is_vertex_labeled)
 
 # run the Sampling Gap Algorithm
 sampling_gap = mcmc_object.run_sampling_gap_algorithm()
 print(&quot;Sampling gap obtained = &quot;, sampling_gap)
-
-# Output:
-# Sampling gap obtained = 31
 </code></pre>
-<p>Again, the warning messages may be muted using </p>
-<pre><code class="language-python">sampling_gap = mcmc_object.run_sampling_gap_algorithm(warning_outputs = False)
+<p>Output:
+```Sampling gap obtained = 31</p>
+<pre><code>
+Again, warning messages will be muted if specified so while creating the MCMC object. The warning messages of the sampling gap algorithm in particular can be muted using the following code, even when it was not muted while creating the MCMC object.
+```python
+sampling_gap = mcmc_object.run_sampling_gap_algorithm(warnings = False)
+</code></pre>
+<p>The default significance level of the the autocorrelation hypothesis tests = 5% and the default number of parallel MCMC chains run for the Sampling Gap Algorithm = 100. However, you can change them by specifying in the function parameter. For example, we can set the significance level as 10% and run 50 parallel MCMC chains as follows:</p>
+<pre><code class="language-python">sampling_gap = mcmc_object.run_sampling_gap_algorithm(alpha_c = 0.1, numchains = 50)
 </code></pre>
 <h2 id="customise-sampling-gap">Customise sampling gap</h2>
-<p>One can also specify a bespoke sampling gap one wants to run the convergence detection test with, using the <code>sampling_gap</code> function parameter.</p>
+<p>You can also specify a custom sampling gap that you want to run the convergence detection test with, using the <code>sampling_gap</code> function parameter.</p>
 <pre><code class="language-python"># read the network
 G = nx.karate_club_graph()
 
@@ -205,16 +229,16 @@ G = nx.karate_club_graph()
 allow_loops = False
 allow_multi = False
 is_vertex_labeled = True
-mcmc_object = CM.MCMC(G, allow_loops=False, allow_multi=False, is_vertex_labeled=False)
+mcmc_object = CM.MCMC(G, allow_loops, allow_multi, is_vertex_labeled)
 
 # Specify the sampling gap 
 gap = 100 # any user-defined value
-list_of_graphs = mcmc_object.get_graphs(count=5, sampling_gap = gap)
+list_of_graphs = mcmc_object.get_graph(count=5, sampling_gap = gap)
 for each_graph in list_of_graphs:
     print(round(nx.degree_pearson_correlation_coefficient(each_graph),4), end = &quot; &quot;)
-
-# Output:
-# -0.2614 -0.4342 -0.3118 -0.2864 -0.2939
+</code></pre>
+<p>Output:</p>
+<pre><code>-0.2614 -0.4342 -0.3118 -0.2864 -0.2939
 </code></pre>
               
             </div>
