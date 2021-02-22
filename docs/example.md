@@ -85,7 +85,7 @@ list_of_graphs = mcmc_object.get_graphs(count=5)
 ```
 
 Output:
-```
+```plaintext
 The network does not satisfy the density criterion for automatic selection of sampling gap.
 Running the Sampling Gap Algorithm. This will take a while.....
 ----- Running initial burn-in -----
@@ -138,9 +138,9 @@ print("Sampling gap obtained = ", sampling_gap)
 ```
 
 Output:
-~~~
+```plaintext
 Sampling gap obtained = 31
-~~~
+```
 
 Again, warning messages will be muted if specified so while creating the MCMC object. The warning messages of the sampling gap algorithm in particular can be muted using the following code, even when it was not muted while creating the MCMC object.
 ```python
@@ -175,6 +175,6 @@ for each_graph in list_of_graphs:
     print(round(nx.degree_pearson_correlation_coefficient(each_graph),4), end = " ")
 ```
 Output:
-```
+```plaintext
 -0.2614 -0.4342 -0.3118 -0.2864 -0.2939
 ```
