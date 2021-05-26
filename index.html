@@ -54,7 +54,7 @@
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#why-use-configmodel_mcmc">Why use ConfigModel_MCMC?</a>
+    <li class="toctree-l2"><a class="reference internal" href="#why-use-configuration_model_mcmc">Why use configuration_model_mcmc?</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#installing">Installing</a>
     </li>
@@ -105,13 +105,13 @@
               
                 <h1 id="user-guide">User Guide</h1>
 <h2 id="introduction">Introduction</h2>
-<p><strong>ConfigModel_MCMC</strong> is a tool for sampling networks from the Configuration model, given a network and a graph space. This code package builds upon the Double Edge Swap MCMC Graph Sampler by Fosdick et al. <a href="https://epubs.siam.org/doi/pdf/10.1137/16M1087175">[1]</a>. It detects convergence in the Double Edge Swap MCMC and samples networks from the MCMC's stationary distribution, such that the samples are uniform random draws from the Configuration model.</p>
+<p><strong>configuration_model_mcmc</strong> is a tool for sampling networks from the Configuration model, given a network and a graph space. This code package builds upon the Double Edge Swap MCMC Graph Sampler by Fosdick et al. <a href="https://epubs.siam.org/doi/pdf/10.1137/16M1087175">[1]</a>. It detects convergence in the Double Edge Swap MCMC and samples networks from the MCMC's stationary distribution, such that the samples are uniform random draws from the Configuration model.</p>
 <p>[1] Bailey K. Fosdick, Daniel B. Larremore, Joel Nishimura, Johan Ugander (2018) Configuring Random Graph Models with Fixed Degree Sequences. SIAM Review 60(2):315–355.</p>
-<h2 id="why-use-configmodel_mcmc">Why use ConfigModel_MCMC?</h2>
-<p>The <a href="https://networkx.org/documentation/networkx-1.10/reference/generated/networkx.generators.degree_seq.configuration_model.html">configuration_model</a> function of the <a href="https://pypi.org/project/networkx/">networkx</a> package in Python works best only for the stub-labeled loopy multigraph space because the graph returned is a pseudograph, i.e., the graph is allowed to have self-loops and parallel edges(multi-edges). Often times practitioners remove the self-loops and collapse the multi-edges in the network returned by the function to get a <em>simple network</em>, but this modification changes the degree sequence of the network. It also introduces a bias in the network generating process because the high-degree nodes are more likely to have self-loops and multi-edges attached to them than are the low-degree nodes. The <strong>ConfigModel_MCMC</strong> package lets you sample an unbiased sample from the Configuration model on eight different graph spaces parameterized by self-loops/no self-loops, multi-edges/no multi-edges and stub-labeled/vertex-labeled.</p>
+<h2 id="why-use-configuration_model_mcmc">Why use configuration_model_mcmc?</h2>
+<p>The <a href="https://networkx.org/documentation/networkx-1.10/reference/generated/networkx.generators.degree_seq.configuration_model.html">configuration_model</a> function of the <a href="https://pypi.org/project/networkx/">networkx</a> package in Python works best only for the stub-labeled loopy multigraph space because the graph returned is a pseudograph, i.e., the graph is allowed to have self-loops and parallel edges(multi-edges). Often times practitioners remove the self-loops and collapse the multi-edges in the network returned by the function to get a <em>simple network</em>, but this modification changes the degree sequence of the network. It also introduces a bias in the network generating process because the high-degree nodes are more likely to have self-loops and multi-edges attached to them than are the low-degree nodes. The <strong>configuration_model_mcmc</strong> package lets you sample an unbiased sample from the Configuration model on eight different graph spaces parameterized by self-loops/no self-loops, multi-edges/no multi-edges and stub-labeled/vertex-labeled.</p>
 <h2 id="installing">Installing</h2>
 <p>This package is distributed on <a href="">PyPI</a> and can be installed with <code>pip</code>:</p>
-<p><code>pip install ConfigModel_MCMC</code></p>
+<p><code>pip install configuration_model_mcmc</code></p>
 <p>This package supports Python 3.7 and 3.8, and requires the packages Numpy&gt;=1.17.1, Networkx&gt;=2.4, Scipy&gt;=1.4.1, Numba==0.49.1. These dependencies are automatically installed while installing the package.</p>
 <h2 id="notes">Notes</h2>
 <p>The package will not work for weighted networks, directed networks, hypergraphs, or simplical complexes.</p>
@@ -172,5 +172,5 @@
 
 <!--
 MkDocs version : 1.1.2
-Build Date UTC : 2021-05-13 06:30:45.701077+00:00
+Build Date UTC : 2021-05-26 13:04:15.464109+00:00
 -->
